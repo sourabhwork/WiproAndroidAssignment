@@ -12,20 +12,20 @@ import io.reactivex.schedulers.Schedulers
  * Repository class to manipulate data from various data sources i.e. network,database
  */
 class FactRepository(val networkDataSource: FactsNetworkDataSource, val factDao: FactDao) {
-    fun getFacts(): LiveData<List<Fact>> {
+    public fun getFacts(): LiveData<List<Fact>> {
         getFactsFromApi()
         return getFactsFromDb()
     }
 
-    fun getTitle(): LiveData<AppTitle> {
+    public fun getTitle(): LiveData<AppTitle> {
         return factDao.getTitle()
     }
 
-    private fun getFactsFromDb(): LiveData<List<Fact>> {
+    public fun getFactsFromDb(): LiveData<List<Fact>> {
         return factDao.getAllFacts()
     }
 
-    private fun getFactsFromApi() {
+    public fun getFactsFromApi() {
         val factApi = networkDataSource.getNetworkData()
         factApi.getFacts().retry()
             .subscribeOn(Schedulers.newThread())
@@ -38,16 +38,16 @@ class FactRepository(val networkDataSource: FactsNetworkDataSource, val factDao:
             })
     }
 
-    private fun storeFactsInDb(facts: List<Fact>) {
+    public fun storeFactsInDb(facts: List<Fact>) {
         factDao.insertAll(facts)
     }
 
-    private fun clearCache(){
+    public fun clearCache(){
         factDao.deleteAllFacts()
         factDao.deleteTitle()
     }
 
-    private fun storeTitle(title: String) {
+    public fun storeTitle(title: String) {
         factDao.insertTitle(AppTitle(null,title))
     }
 }
