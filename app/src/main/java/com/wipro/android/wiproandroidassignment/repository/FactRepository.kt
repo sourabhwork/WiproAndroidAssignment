@@ -27,7 +27,7 @@ class FactRepository(val networkDataSource: FactsNetworkDataSource, val factDao:
 
     private fun getFactsFromApi() {
         val factApi = networkDataSource.getNetworkData()
-        factApi.getFacts()
+        factApi.getFacts().retry()
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ data ->

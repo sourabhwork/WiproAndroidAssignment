@@ -6,7 +6,7 @@ import android.content.Context
 /** Room database builder class
  * Returns single instance of App database
  */
-@Database(entities = [Fact::class, AppTitle::class], version = 1)
+@Database(entities = [Fact::class, AppTitle::class], version = 1,  exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun factDao(): FactDao
     companion object {
